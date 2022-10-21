@@ -1,0 +1,19 @@
+modules:
+  jiraServiceManagement:queuePage:
+    - key: hello-world-app-hello-world-queue-page
+      function: main
+      title: Test App
+  function:
+    - key: main
+      handler: index.run
+app:
+  id: ari:cloud:ecosystem::app/0dcf4618-931f-4978-a6c7-96ffd94e3d40
+permissions:
+  scopes:
+    - read:jira-user
+    - read:jira-work
+  external:
+    fetch:
+      backend:
+        - 8d16-94-66-221-143.eu.ngrok.io
+        - jsonplaceholder.typicode.com
