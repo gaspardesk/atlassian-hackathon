@@ -15,5 +15,5 @@ permissions:
   external:
     fetch:
       backend:
-        - 8d16-94-66-221-143.eu.ngrok.io
+        - '*.eu.ngrok.io'
         - jsonplaceholder.typicode.com
