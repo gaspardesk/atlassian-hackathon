@@ -14,8 +14,30 @@ const App = () => {
       const response = await api.asUser().requestJira(
         route`/rest/api/3/myself`
       );
-      setFormState(response.json());
+      const user = await response.json();
+      const domain = user.emailAddress.split("@")[1];
+      const domain_name = domain.split(".")[0]
+      setFormState(domain_name);
     };
+
+    const checkIfSignedUp = async () => {
+      const response = await api.asUser().requestJira(
+        route`/rest/api/3/myself`
+      );
+      const user = await response.json();
+      const organization_domain = user.emailAddress.split("@")[1];
+      const domain_name = organization_domain.split(".")[0]
+      axios.get(`https://${domain_name}.gaspardesk.com/api/common/info/version`)
+      .then((response) =>{
+        return true;
+      })
+      .catch((reason) => {
+        if (reason.response.status === 404){
+          return false;
+        }
+      })
+
+    }
 
 
   return (
@@ -26,6 +48,7 @@ const App = () => {
       <Form onSubmit={onSubmit}>
       <TextField label="Message" name="message" placeholder="Type your message here"/>
       </Form>
+      {checkIfSignedUp && <Text>You are signed up!</Text>}
     </Fragment>
   );
 };

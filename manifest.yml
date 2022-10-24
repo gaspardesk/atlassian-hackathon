@@ -17,3 +17,4 @@ permissions:
       backend:
         - '*.eu.ngrok.io'
         - jsonplaceholder.typicode.com
+        - '*.gaspardesk.com'
