@@ -2,7 +2,7 @@ modules:
   jiraServiceManagement:queuePage:
     - key: hello-world-app-hello-world-queue-page
       function: main
-      title: Test App
+      title: Gaspar Agent Bot
   function:
     - key: main
       handler: index.run
