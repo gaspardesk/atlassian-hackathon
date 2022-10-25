@@ -25,11 +25,12 @@ const App = () => {
       const signature = signKey(domain_name + now);
       let logged_in = "Unknown";
       try{
-        const response = await axios.get(`https://6fd0-94-66-221-143.eu.ngrok.io/common/info/version`, {
+        const response = await fetch(`https://6fd0-94-66-221-143.eu.ngrok.io/forge/message`, {
           headers: {
             "X-Forge-payload": `${domain_name}${now}`,
             "X-Forge-signature": signature,
-          }
+          },
+          method: 'POST'
         });
         console.log(response.statusText);
         logged_in = "You have signed Up";
