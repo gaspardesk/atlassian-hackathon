@@ -8,16 +8,14 @@ export const Chat = () => {
         const current_user = get_current_user()
         const now = new Date().toISOString();
         const signature = signKey(current_user.domain_name + now);
-        let logged_in = "Unknown";
         const message_body = {
           query: formData.message,
           user_email: user.emailAddress,
           user_id: user.accountId
         }
-        console.log(message_body);
         try{
   
-          const django_response = await fetch(`https://8d06-94-66-221-143.eu.ngrok.io/forge/message`, {
+          const django_response = await fetch(`https://598d-94-66-221-143.eu.ngrok.io/forge/message`, {
             headers: {
               "X-Forge-payload": `${domain_name}${now}`,
               "X-Forge-signature": signature,
@@ -44,7 +42,7 @@ export const Chat = () => {
       <Form onSubmit={onMessageSend}>
       <TextField label="Message" name="message" placeholder="Type your message here"/>
       </Form>
-      {}
+      
     </Fragment>
     )
 }

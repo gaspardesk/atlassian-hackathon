@@ -7,7 +7,6 @@ export const Signup = () => {
             <Heading size="large">Welcome to Gaspar Agent Bot!</Heading>
             <Text>Please click the button bellow to sign up in our platform!</Text>
             <Text><Link appearance="button" href="https://signup.gaspardesk.com/">Sign Up</Link></Text>
-            
         </Fragment>
     )
 }
