@@ -1,6 +1,6 @@
 modules:
-  jiraServiceManagement:queuePage:
-    - key: hello-world-app-hello-world-queue-page
+  jira:projectPage:
+    - key: gaspardesk-agent-bot
       function: main
       title: Gaspar Agent Bot
   function:
