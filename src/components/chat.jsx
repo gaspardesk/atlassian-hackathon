@@ -1,36 +1,15 @@
 import ForgeUI, { Button, Fragment, Form, useState, Image, Text, TextField, Em, Strong, Heading } from "@forge/ui"
+import { get_current_user } from "../utilities/utils";
+
 
 export const Chat = () => {
     const [chatState, setChatState] = useState(undefined);
 
     // Handles form submission, which is a good place to call APIs, or to set component state...
     const onMessageSend = async (formData) => {
-        const current_user = get_current_user()
-        const now = new Date().toISOString();
-        const signature = signKey(current_user.domain_name + now);
-        const message_body = {
-          query: formData.message,
-          user_email: user.emailAddress,
-          user_id: user.accountId
-        }
-        try{
-  
-          const django_response = await fetch(`https://598d-94-66-221-143.eu.ngrok.io/forge/message`, {
-            headers: {
-              "X-Forge-payload": `${domain_name}${now}`,
-              "X-Forge-signature": signature,
-            },
-            method: 'POST',
-            body: JSON.stringify(message_body)
-          });
-          console.log(django_response.statusText);
-          logged_in = "You have signed Up";
-          setFormState(logged_in +' '+ formData.message + " " + JSON.stringify( await django_response.json()));
-        }
-        catch (error) {
-          console.log(error.message);
-          logged_in = "You have NOT signed Up";
-        }
+        
+          setChatState(logged_in +' '+ formData.message + " " + JSON.stringify( await django_response.json()));
+
   
         
         
