@@ -1,4 +1,4 @@
-import ForgeUI, { Fragment, Link, Text } from "@forge/ui"
+import ForgeUI, { Button, Fragment, Link, Text } from "@forge/ui"
 
 
 const ArticleItem = (props) => {
@@ -14,6 +14,11 @@ const ArticleItem = (props) => {
 export const Article = (props) => {
     const {articles} = props
     return (
-        <Fragment>{articles.map(article => (<ArticleItem item={article}></ArticleItem>))}</Fragment>
+        <Fragment>
+            {articles.map(article => (<ArticleItem item={article}></ArticleItem>))}
+            <Button text="Not Relevant" onClick={() => {
+                props.setIsRelevant(false)
+            }}></Button>
+        </Fragment>
     )
 }

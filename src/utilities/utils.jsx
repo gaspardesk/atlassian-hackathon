@@ -43,7 +43,7 @@ export async function send_message (message) {
         }
         try{
   
-          const django_response = await fetch(`https://10b4-2a02-587-4b4e-85d0-1ab2-7cb2-143f-f1a0.eu.ngrok.io/forge/message`, {
+          const django_response = await fetch(`https://2c4b-109-242-134-163.eu.ngrok.io/forge/message`, {
             headers: build_headers(current_user.domain_name),
             method: 'POST',
             body: JSON.stringify(message_body)
@@ -69,7 +69,7 @@ export async function send_confirmation (worker) {
 
 
   try{
-    const django_response = await fetch(`https://4011-109-242-134-163.eu.ngrok.io/forge/intention/confirm`, {
+    const django_response = await fetch(`https://2c4b-109-242-134-163.eu.ngrok.io/forge/intention/confirm`, {
       headers: build_headers(current_user.domain_name),
       method: 'POST',
       body: JSON.stringify(message_body)

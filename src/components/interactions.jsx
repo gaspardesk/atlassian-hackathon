@@ -2,28 +2,34 @@ import ForgeUI, { Button, Fragment, Form, useState, Image, Text, Code, TextField
 import { Article } from "./article"
 import { Suggestion } from "./suggestion"
 
-const renderIntentions = (data, index, handleChange) => {
+const renderIntentions = (data, index, handleChange, articlesAreRelevant, setArticlesAreRelevant) => {
     if (!data) {
         return <Text>No Response Received, Please Refresh</Text>
     }
-    console.log(`rendering ${index}`);
+
+
+
     if (data.intentions && index < data.intentions.length) {
         return <Suggestion intention={data.intentions[index]} onChange={handleChange} index={index}></Suggestion>
     }
-    else if (data.articles){
+    else if (data.articles && articlesAreRelevant){
         console.log("printing articles");
-        return <Article articles={data.articles}></Article>
+        return <Article articles={data.articles} setIsRelevant={setArticlesAreRelevant} isRelevant={articlesAreRelevant}></Article>
     }
-    else {
-        return <Text>There's nothing I can do for you</Text>
+    else if (!articlesAreRelevant){
+        return <Text>Articles Are Irrelevant GO DIE IN A FIRE</Text>
     }
+
+
+
 }
     
 
 export const Interactions = (props) => {
     const {data} = props;
     const [intentionIndex, setIntentionIndex] = useState(0);
+    const [articlesAreRelevant, setArticlesAreRelevant] = useState(true);
 
     return (
-    <Fragment>{renderIntentions(data,intentionIndex, setIntentionIndex)}</Fragment>)
+    <Fragment>{renderIntentions(data,intentionIndex, setIntentionIndex, articlesAreRelevant, setArticlesAreRelevant)}</Fragment>)
 }
