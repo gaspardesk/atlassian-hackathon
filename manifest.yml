@@ -3,6 +3,7 @@ modules:
     - key: gaspardesk-agent-bot
       function: main
       title: Gaspar Agent Bot
+      icon: https://atlassian-hackathon.s3.amazonaws.com/Gaspardek_logo_black_24x24.svg
   function:
     - key: main
       handler: index.run
@@ -16,5 +17,4 @@ permissions:
     fetch:
       backend:
         - "*.eu.ngrok.io"
-        - jsonplaceholder.typicode.com
         - "*.gaspardesk.com"

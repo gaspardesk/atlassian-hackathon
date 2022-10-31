@@ -4,7 +4,7 @@ const ArticleItem = (props) => {
   const { item } = props;
   return (
     <Fragment>
-      <Text>{item.title ? item.title : item.content}</Text>
+      <Text>{item.content ? item.content : item.title}</Text>
       <Text>
         <Link href={item.url} appearance="link" openNewTab={true}>
           {item.title ? item.title : item.content}
@@ -15,16 +15,19 @@ const ArticleItem = (props) => {
 };
 
 export const Article = (props) => {
-  const { articles } = props;
+  const { articles, setIsRelevant } = props;
+
   return (
     <Fragment>
       {articles.map((article) => (
-        <ArticleItem item={article}></ArticleItem>
+        <Fragment>
+          <ArticleItem item={article}></ArticleItem>
+        </Fragment>
       ))}
       <Button
         text="Not Relevant"
         onClick={() => {
-          props.setIsRelevant(false);
+          setIsRelevant(false);
         }}
       ></Button>
     </Fragment>

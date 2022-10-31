@@ -1,5 +1,5 @@
-import ForgeUI, { render, ProjectPage, useState, useEffect } from "@forge/ui";
-import { checkIfSignedUp } from "../utilities/utils";
+import ForgeUI, { render, useState, useEffect } from "@forge/ui";
+import { checkIfSignedUp } from "../requests";
 import { Chat } from "./chat";
 import { Signup } from "./signup";
 

@@ -1,73 +1,128 @@
-import ForgeUI, {
-  Button,
-  Fragment,
-  Form,
-  useState,
-  Image,
-  Text,
-  Code,
-  TextField,
-  Em,
-  Strong,
-  Heading,
-  ButtonSet,
-  useEffect,
-} from "@forge/ui";
+import ForgeUI, { Fragment, useState, Text, Button } from "@forge/ui";
 import { Article } from "./article";
 import { Suggestion } from "./suggestion";
-
-const renderIntentions = (
-  data,
-  index,
-  handleChange,
-  articlesAreRelevant,
-  setArticlesAreRelevant
-) => {
-  if (!data) {
-    return <Text>No Response Received, Please Refresh</Text>;
-  }
-
-  if (data.intentions && index < data.intentions.length) {
-    return (
-      <Suggestion
-        intention={data.intentions[index]}
-        onChange={handleChange}
-        index={index}
-      ></Suggestion>
-    );
-  } else if (data.articles && articlesAreRelevant) {
-    console.log("printing articles");
-    return (
-      <Article
-        articles={data.articles}
-        setIsRelevant={setArticlesAreRelevant}
-        isRelevant={articlesAreRelevant}
-      ></Article>
-    );
-  } else if (!articlesAreRelevant) {
-    return <Text>Articles Are Irrelevant GO DIE IN A FIRE</Text>;
-  }
-
-  // return (
-  //     <Fragment>
-  //         {data.intentions.map(intention => (<ArticleItem item={article}></ArticleItem>)}
-  //     </Fragment>
-  // )
-};
+import { ModalFormComponent } from "./ModalFormComponent";
+import { form_definition_request, create_manual_ticket } from "../requests";
 
 export const Interactions = (props) => {
-  const { data } = props;
+  const { chatState, setChatState, appendToHistory, setChatHistory } = props;
   const [intentionIndex, setIntentionIndex] = useState(0);
+  const [loadedData, setLoadedData] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [articlesAreRelevant, setArticlesAreRelevant] = useState(true);
+  const [declinedTicketModal, setDeclinedTicketModal] = useState(false);
+  const [intentionConfirmed, setIntentionConfirmed] = useState(false);
+
+  const setRelevance = (value) => {
+    appendToHistory("Marked the knowledge based article(s) as not relevant.");
+    setArticlesAreRelevant(value);
+  };
+
+  const incrementIntentionIndex = (value) => {
+    appendToHistory(chatState.intentions[intentionIndex].prompt, true);
+    appendToHistory(`Declined the automation.`);
+    setIntentionIndex(value);
+  };
+
+  const submitForm = async (formData) => {
+    await create_manual_ticket(formData);
+    setIsModalOpen(false);
+    appendToHistory("Successfully submitted your ticket.", true);
+    setChatState(undefined);
+  };
+
+  // Handles form submission, which is a good place to call APIs, or to set component state...
+  const getFormDescription = async () => {
+    const response = await form_definition_request();
+    setLoadedData(response);
+    setIsModalOpen(true);
+  };
+
+  const onCreateTicket = async () => {
+    await getFormDescription();
+    setIsModalOpen(true);
+  };
+
+  const onMoreHelpClick = () => {
+    setChatState(undefined);
+    setChatHistory([]);
+  };
+
+  const onNoMoreHelpClick = () => {
+    setChatState(undefined);
+    setChatHistory([]);
+  };
+
+  const renderIntentions = () => {
+    if (!chatState) {
+      return <Text>No Response Received, Please Refresh</Text>;
+    }
+
+    if (
+      chatState.intentions &&
+      intentionIndex < chatState.intentions.length &&
+      !intentionConfirmed
+    ) {
+      return (
+        <Suggestion
+          intention={chatState.intentions[intentionIndex]}
+          onChange={incrementIntentionIndex}
+          index={intentionIndex}
+          appendToHistory={appendToHistory}
+          setIntentionConfirmed={setIntentionConfirmed}
+        ></Suggestion>
+      );
+    } else if (
+      chatState.articles &&
+      articlesAreRelevant &&
+      !intentionConfirmed
+    ) {
+      return (
+        <Article
+          articles={chatState.articles}
+          setIsRelevant={setRelevance}
+          isRelevant={articlesAreRelevant}
+          appendToHistory={appendToHistory}
+        ></Article>
+      );
+    } else if (!declinedTicketModal && !intentionConfirmed) {
+      return (
+        <Fragment>
+          <Button
+            text="Open a Ticket"
+            onClick={() => onCreateTicket()}
+          ></Button>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <Text>Is there anything else i can help you with?</Text>
+          <Button text="Yes" onClick={() => onMoreHelpClick()}></Button>
+          <Button
+            text="No, thank you."
+            appearance="subtle"
+            onClick={() => onNoMoreHelpClick()}
+          ></Button>
+        </Fragment>
+      );
+    }
+  };
 
   return (
     <Fragment>
-      {renderIntentions(
-        data,
-        intentionIndex,
-        setIntentionIndex,
-        articlesAreRelevant,
-        setArticlesAreRelevant
+      {renderIntentions()}
+      {isModalOpen && (
+        <ModalFormComponent
+          data={loadedData}
+          modalTitle="Create a Ticket"
+          toggleModalHandler={() => {
+            appendToHistory("Closed the modal for creating a new ticket.");
+            setIsModalOpen(false);
+            setDeclinedTicketModal(true);
+          }}
+          onSubmitHandler={(formData) => submitForm(formData)}
+        ></ModalFormComponent>
       )}
     </Fragment>
   );
