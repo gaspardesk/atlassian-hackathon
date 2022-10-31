@@ -15,6 +15,6 @@ permissions:
   external:
     fetch:
       backend:
-        - '*.eu.ngrok.io'
+        - "*.eu.ngrok.io"
         - jsonplaceholder.typicode.com
-        - '*.gaspardesk.com'
+        - "*.gaspardesk.com"
