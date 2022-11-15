@@ -9,7 +9,7 @@ export function signKey(message) {
 }
 
 function baseUrl(domain) {
-  return `https://${domain}.us.gaspardesk.com/api`
+  return `https://jira.test.gaspardesk.com/api`
 }
 
 export async function checkIfSignedUp(user_domain) {
@@ -27,8 +27,8 @@ export async function checkIfSignedUp(user_domain) {
 export async function get_current_user() {
   const response = await api.asUser().requestJira(route`/rest/api/3/myself`);
   let user = await response.json();
-  user.organization_domain = user.emailAddress.split("@")[1];
-  user.domain_name = user.organization_domain.split(".")[0];
+  user.organization_domain = "gaspartest.com";
+  user.domain_name = "gaspartest";
   return user;
 }
 
