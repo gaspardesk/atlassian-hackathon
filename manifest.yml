@@ -4,9 +4,16 @@ modules:
       function: main
       title: Gaspar Agent Bot
       icon: https://atlassian-hackathon.s3.amazonaws.com/Gaspardek_logo_black_24x24.svg
+  jiraServiceManagement:portalFooter:
+    - key: gaspardesk-selfservice-bot
+      function: main_portal
+      title: Gaspar Agent Bot
+      icon: https://atlassian-hackathon.s3.amazonaws.com/Gaspardek_logo_black_24x24.svg
   function:
     - key: main
       handler: index.run
+    - key: main_portal
+      handler: indexportal.run
 app:
   id: ari:cloud:ecosystem::app/0dcf4618-931f-4978-a6c7-96ffd94e3d40
 permissions:
